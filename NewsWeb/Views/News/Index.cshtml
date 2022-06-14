@@ -1,0 +1,84 @@
+﻿@{
+    List<NewsWeb.Core.Entities.News> list = ViewBag.Data as List<NewsWeb.Core.Entities.News>;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - NewsManager</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NewsDemo</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link alert-danger" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    @{ ViewData["Title"] = "Home Page"; }
+
+    <h4 class="text-center text-uppercase">List of News</h4>
+
+    <p>
+        <a asp-action="CreateNews" class="btn btn-sm btn-primary rounded-0 text-uppercase"><i class="fas fa-plus-circle"></i> Add News</a>
+    </p>
+    <p>
+        <a asp-action="CreateCategory" class="btn btn-sm btn-primary rounded-0 text-uppercase"><i class="fas fa-plus-circle"></i> Add Category</a>
+    </p>
+    <p>
+        <a asp-action="search" class="btn btn-sm btn-primary rounded-0 text-uppercase"><i class="fas fa-plus-circle"></i> Search</a>
+    </p>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>CategoryId</th>
+                <th>Summary</th>
+                <th>MainText</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var news in list)
+            {
+                <tr>
+                    <td>
+                        <img src="~/img/@news.NewsImages"
+                             class="rounded-circle"
+                             height="40" width="40"
+                             asp-append-version="true" />
+                        @news.Title
+                    </td>
+                    <td>@news.CategoryId</td>
+                    <td>@news.Summary</td>
+                    <td>@news.Text</td>
+                    <td><a href="news/edit/@news.NewsId" class="btn btn-warning">ویرایش</a>|<a href="~/news/delete/@news.NewsId" class="btn btn-danger">حذف</a></td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</body>
+</html>
