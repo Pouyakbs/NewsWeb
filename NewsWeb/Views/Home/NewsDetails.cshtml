@@ -1,12 +1,15 @@
-﻿@model NewsViewModel
-
+﻿@{
+    NewsWeb.Core.Entities.News news = ViewBag.Data as NewsWeb.Core.Entities.News;
+}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PouyaNews - Free News Website Template</title>
+    <title>BizNews - Free News Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
@@ -33,7 +36,7 @@
                 <nav class="navbar navbar-expand-sm bg-dark p-0">
                     <ul class="navbar-nav ml-n2">
                         <li class="nav-item border-right border-secondary">
-                            <a class="nav-link text-body small" href="#">@DateTime.Now</a>
+                            <a class="nav-link text-body small" href="#">Monday, January 1, 2045</a>
                         </li>
                         <li class="nav-item border-right border-secondary">
                             <a class="nav-link text-body small" href="#">Advertise</a>
@@ -42,10 +45,7 @@
                             <a class="nav-link text-body small" href="#">Contact</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-body small" href="~/Account/Login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-body small" href="~/Account/CreateAccount">SignUp</a>
+                            <a class="nav-link text-body small" href="#">Login</a>
                         </li>
                     </ul>
                 </nav>
@@ -76,7 +76,7 @@
             </div>
         </div>
         <div class="row align-items-center bg-white py-3 px-lg-5">
-            <div class="col-lg-5">
+            <div class="col-lg-4">
                 <a href="index.html" class="navbar-brand p-0 d-none d-lg-block">
                     <h1 class="m-0 display-4 text-uppercase text-primary">True<span class="text-secondary font-weight-normal">News</span></h1>
                 </a>
@@ -91,14 +91,14 @@
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-2 py-lg-0 px-lg-5">
             <a href="index.html" class="navbar-brand d-block d-lg-none">
-                <h1 class="m-0 display-4 text-uppercase text-primary">Pouya<span class="text-white font-weight-normal">News</span></h1>
+                <h1 class="m-0 display-4 text-uppercase text-primary">True<span class="text-white font-weight-normal">News</span></h1>
             </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
                 <div class="navbar-nav mr-auto py-0">
-                    <a href="index.html" class="nav-item nav-link active">Home</a>
+                    <a href="index.html" class="nav-item nav-link">Home</a>
                     <a href="category.html" class="nav-item nav-link">Category</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dropdown</a>
@@ -110,107 +110,41 @@
                     </div>
                     <a href="contact.html" class="nav-item nav-link">Contact</a>
                 </div>
-                <div class="input-group ml-auto d-none d-lg-flex" style="width: 100%; max-width: 300px;">
-                    <input type="text" class="form-control border-0" placeholder="Keyword">
-                    <div class="input-group-append">
-                        <button class="input-group-text bg-primary text-dark border-0 px-3">
-                            <i class="fa fa-search"></i>
-                        </button>
+                <form action="~/news/index" method="get">
+                    <div class="input-group ml-auto d-none d-lg-flex" style="width: 100%; max-width: 300px;">
+                        <input type="text" class="form-control border-0" placeholder="Keyword">
+                        <div class="input-group-append">
+                            <button class="input-group-text bg-primary text-dark border-0 px-3">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </nav>
     </div>
     <!-- Navbar End -->
-    <!-- Main News Slider Start -->
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-7 px-0">
-                <div class="owl-carousel main-carousel position-relative">
-                    @foreach (var item in Model.News)
-                    {
-                        <div class="position-relative overflow-hidden" style="height: 500px; ">
-                            <img class="img-fluid h-100" src="img/@item.NewsImages" style="object-fit: cover;">
-                            <div class="overlay">
-                                <div class="mb-2">
-                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                       href="/?categoryId=@item.CategoryId">@item.CategoryId</a>
-                                    <a class="text-white" href="">Jan 01, 2045</a>
-                                </div>
-                                <a class="h2 m-0 text-white text-uppercase font-weight-bold" href="/home/NewsDetails/@item.NewsId">@item.Title</a>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Main News Slider End -->
-    <!-- Breaking News Start -->
-    <!-- Breaking News End -->
-    <!-- Featured News Slider Start -->
-
-    <div class="container-fluid pt-5 mb-3">
-        <div class="container">
-            <div class="section-title">
-                <h4 class="m-0 text-uppercase font-weight-bold">Featured News</h4>
-            </div>
-
-            <div class="owl-carousel news-carousel carousel-item-4 position-relative">
-                @foreach (var item in Model.News)
-                {
-                    <div class="position-relative overflow-hidden" style="height: 300px;">
-                        <img class="img-fluid h-100" src="img/@item.NewsImages" style="object-fit: cover;">
-                        <div class="overlay">
-                            <div class="mb-2">
-                                <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                   href="/?categoryId=@item.CategoryId">@item.CategoryId</a>
-                                <a class="text-white" href=""><small>Jan 01, 2045</small></a>
-                            </div>
-                            <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold" href="/home/NewsDetails/@item.NewsId">@item.Title</a>
-                        </div>
-                    </div>
-                }
-
-            </div>
-
-        </div>
-    </div>
-
-
-    <!-- Featured News Slider End -->
     <!-- News With Sidebar Start -->
     <div class="container-fluid">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="section-title">
-                                <h4 class="m-0 text-uppercase font-weight-bold">Latest News</h4>
-                                <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
+                    <!-- News Detail Start -->
+                    <div class="position-relative mb-3" dir="rtl">
+                        <img class="img-fluid w-100" src="~/img/@news.NewsImages" style="object-fit: cover;">
+                        <div class="bg-white border border-top-0 p-4">
+                            <div class="mb-3">
+                                <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                   href="">@news.CategoryId</a>
+                                <a class="text-body" href="">Jan 01, 2045</a>
                             </div>
+                            <h1 class="mb-3 text-secondary text-uppercase font-weight-bold">@news.Title</h1>
+                            <p>
+                                @news.Text
+                            </p>
                         </div>
-                        @foreach (var item in Model.News)
-                        {
-                            <div class="col-lg-6">
-                                <div class="position-relative mb-3">
-                                    <img class="img-fluid w-100" src="img/@item.NewsImages" style="object-fit: cover;">
-                                    <div class="bg-white border border-top-0 p-4">
-                                        <div class="mb-2">
-                                            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                               href="/?categoryId=@item.CategoryId">@item.CategoryId</a>
-                                            <a class="text-body" href=""><small>Jan 01, 2045</small></a>
-                                        </div>
-                                        <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold" href="/home/NewsDetails/@item.NewsId">@item.Title</a>
-                                        <p class="m-0">
-                                            @item.Summary
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        }
                     </div>
+                    <!-- News Detail End -->
                 </div>
 
                 <div class="col-lg-4">
@@ -252,34 +186,36 @@
                         <div class="section-title mb-0">
                             <h4 class="m-0 text-uppercase font-weight-bold">Advertisement</h4>
                         </div>
-                        @(await Component.InvokeAsync("Ads"))
+                        <div class="bg-white text-center border border-top-0 p-3">
+                            @(await Component.InvokeAsync("Ads"))
+                        </div>
                     </div>
                     <!-- Ads End -->
-                    <!-- Popular News Start -->
-                    <!-- Popular News End -->
                     <!-- Newsletter Start -->
                     <div class="mb-3">
                         <div class="section-title mb-0">
                             <h4 class="m-0 text-uppercase font-weight-bold">Newsletter</h4>
                         </div>
                         <div class="bg-white text-center border border-top-0 p-3">
+                            <p>Aliqu justo et labore at eirmod justo sea erat diam dolor diam vero kasd</p>
                             <div class="input-group mb-2" style="width: 100%;">
                                 <input type="text" class="form-control form-control-lg" placeholder="Your Email">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary font-weight-bold px-3">Sign Up</button>
                                 </div>
                             </div>
+                            <small>Lorem ipsum dolor sit amet elit</small>
                         </div>
                     </div>
                     <!-- Newsletter End -->
                     <!-- Tags Start -->
                     <div class="mb-3">
                         <div class="section-title mb-0">
-                            <h4 class="m-0 text-uppercase font-weight-bold">Categories</h4>
+                            <h4 class="m-0 text-uppercase font-weight-bold">Tags</h4>
                         </div>
                         <div class="bg-white border border-top-0 p-3">
                             <div class="d-flex flex-wrap m-n1">
-                                @Html.Partial("_CategoryList", Model.Categories)
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Politics</a>
                             </div>
                         </div>
                     </div>
@@ -308,23 +244,52 @@
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
                 <h5 class="mb-4 text-white text-uppercase font-weight-bold">Popular News</h5>
-                @foreach (var item in Model.News)
-                {
-                    <div class="mb-3">
-                        <div class="mb-2">
-                            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">@item.CategoryId</a>
-                            <a class="text-body" href=""><small>Jan 01, 2045</small></a>
-                        </div>
-                        <a class="small text-body text-uppercase font-weight-medium" href="">@item.Title</a>
+                <div class="mb-3">
+                    <div class="mb-2">
+                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">Business</a>
+                        <a class="text-body" href=""><small>Jan 01, 2045</small></a>
                     </div>
-                }
-
+                    <a class="small text-body text-uppercase font-weight-medium" href="">Lorem ipsum dolor sit amet elit. Proin vitae porta diam...</a>
+                </div>
+                <div class="mb-3">
+                    <div class="mb-2">
+                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">Business</a>
+                        <a class="text-body" href=""><small>Jan 01, 2045</small></a>
+                    </div>
+                    <a class="small text-body text-uppercase font-weight-medium" href="">Lorem ipsum dolor sit amet elit. Proin vitae porta diam...</a>
+                </div>
+                <div class="">
+                    <div class="mb-2">
+                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">Business</a>
+                        <a class="text-body" href=""><small>Jan 01, 2045</small></a>
+                    </div>
+                    <a class="small text-body text-uppercase font-weight-medium" href="">Lorem ipsum dolor sit amet elit. Proin vitae porta diam...</a>
+                </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
                 <h5 class="mb-4 text-white text-uppercase font-weight-bold">Categories</h5>
                 <div class="m-n1">
-                    @Html.Partial("_CategoryList", Model.Categories)
-
+                    <a href="" class="btn btn-sm btn-secondary m-1">Politics</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Business</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Corporate</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Business</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Health</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Education</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Science</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Business</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Foods</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Entertainment</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Travel</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Lifestyle</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Politics</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Business</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Corporate</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Business</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Health</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Education</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Science</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Business</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Foods</a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">

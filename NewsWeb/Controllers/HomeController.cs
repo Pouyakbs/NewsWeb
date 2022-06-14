@@ -55,7 +55,13 @@ namespace NewsWeb.Controllers
                 Categories = categoryViewModels
 
             };
+            ViewBag.Data = Categoryrepository.GetAll();
             return View(model);
+        }
+        public IActionResult NewsDetails(int id)
+        {
+            ViewBag.Data = Newsrepository.NewsDetails(id);
+            return View();
         }
 
         public IActionResult Privacy()

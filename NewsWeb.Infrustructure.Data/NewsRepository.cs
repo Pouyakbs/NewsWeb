@@ -38,5 +38,9 @@ namespace NewsWeb.Infrustructure.Data
             Context.News.Remove(new News() { NewsId = id });
             Context.SaveChanges();
         }
+        public dynamic NewsDetails(int id)
+        {
+            return Context.News.Find(id);
+        }
     }
 }
