@@ -6,6 +6,10 @@ namespace NewsWeb.Infraustraucture.EF
 {
     public class MyContext : DbContext
     {
+        public MyContext(DbContextOptions<MyContext> dbContextOptions) : base(dbContextOptions)
+        {
+
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=NewsWeb;Data Source=.");

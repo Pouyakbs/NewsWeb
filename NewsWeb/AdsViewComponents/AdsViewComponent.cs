@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NewsWeb.Core.Contracts;
 using NewsWeb.Core.Entities;
 using NewsWeb.Infrustructure.Data;
 using System.Collections.Generic;
@@ -8,10 +9,10 @@ namespace NewsWeb.AdsViewComponents
 {
     public class AdsViewComponent : ViewComponent
     {
-        AdsRepository adsRepository;
-        public AdsViewComponent()
+        IAdsRepository adsRepository;
+        public AdsViewComponent(IAdsRepository adsRepository)
         {
-            adsRepository = new AdsRepository();
+            this.adsRepository = adsRepository;
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {

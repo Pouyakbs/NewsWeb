@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NewsWeb.Core.Contracts;
 using NewsWeb.Core.Entities;
 using NewsWeb.Infrustructure.Data;
 using System;
@@ -10,10 +11,10 @@ namespace NewsWeb.Controllers
 {
     public class AccountController : Controller
     {
-        AuthenticationRepository Authenticationrepository;
-        public AccountController()
+        IAuthenticationFacade authenticationFacade;
+        public AccountController(IAuthenticationFacade authenticationFacade)
         {
-            Authenticationrepository = new AuthenticationRepository();
+            this.authenticationFacade = authenticationFacade;
         }
         public IActionResult Index()
         {
@@ -29,7 +30,7 @@ namespace NewsWeb.Controllers
         {
             if (password == confirmedpass)
             {
-                Authenticationrepository.AddAdmin(authentication);
+                authenticationFacade.AddAdmin(authentication);
             }
             else
             {
@@ -43,7 +44,7 @@ namespace NewsWeb.Controllers
         }
         public IActionResult Process(string username,string password)
         {
-            foreach (var admin in Authenticationrepository.GetAuthentications())
+            foreach (var admin in authenticationFacade.GetAuthentications())
             {
                 if (admin.Username == username && admin.Password == password)
                 {

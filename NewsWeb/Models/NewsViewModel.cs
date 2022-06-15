@@ -5,8 +5,8 @@ namespace NewsWeb.Models
 {
     public class NewsViewModel
     {
-        public List<News> News { get; set; }
-        public List<CategoryViewModel> Categories { get; set; }
-        public List<Ads> Ads { get; set; }
+        public IEnumerable<News> News { get; set; }
+        public IEnumerable<CategoryViewModel> Categories { get; set; }
+        public IEnumerable<Ads> Ads { get; set; }
     }
 }

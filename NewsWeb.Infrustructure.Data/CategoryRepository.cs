@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NewsWeb.Core.Contracts;
 using NewsWeb.Core.Entities;
 using NewsWeb.Infraustraucture.EF;
 using System.Collections.Generic;
@@ -6,12 +7,12 @@ using System.Linq;
 
 namespace NewsWeb.Infrustructure.Data
 {
-    public class CategoryRepository
+    public class CategoryRepository : ICategoryRepository
     {
         private readonly MyContext Context;
-        public CategoryRepository()
+        public CategoryRepository(MyContext Context)
         {
-            Context = new MyContext();
+            this.Context = Context;
         }
         public List<Category> GetAll()
         {

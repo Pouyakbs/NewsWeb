@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NewsWeb.Core.Contracts\NewsWeb.Core.Contracts.csproj" />
     <ProjectReference Include="..\NewsWeb.Infraustraucture.EF\NewsWeb.Infraustraucture.EF.csproj" />
   </ItemGroup>
 

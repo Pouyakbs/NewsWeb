@@ -1,16 +1,17 @@
-﻿using NewsWeb.Core.Entities;
+﻿using NewsWeb.Core.Contracts;
+using NewsWeb.Core.Entities;
 using NewsWeb.Infraustraucture.EF;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace NewsWeb.Infrustructure.Data
 {
-    public class AuthenticationRepository
+    public class AuthenticationRepository : IAuthenticationRepository
     {
         private readonly MyContext Context;
-        public AuthenticationRepository()
+        public AuthenticationRepository(MyContext Context)
         {
-            Context = new MyContext();
+            this.Context = Context;
         }
         public List<Authentication> GetAuthentications()
         {

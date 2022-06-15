@@ -1,26 +1,28 @@
-﻿using NewsWeb.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using NewsWeb.Core.Contracts;
+using NewsWeb.Core.Entities;
 using NewsWeb.Infraustraucture.EF;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace NewsWeb.Infrustructure.Data
 {
-    public class NewsRepository
+    public class NewsRepository : INewsRepository
     {
         private readonly MyContext Context;
-        public NewsRepository()
+        public NewsRepository(MyContext Context)
         {
-            Context = new MyContext();
+            this.Context = Context;
         }
-        public List<News> GetHottestNews()
+        public List<News> GetHottestNews(int count)
         {
             return Context.News.OrderByDescending(a => a.PubDate).Take(3).ToList();
         }
-        public List<News> Search(string search)
+        public List<News> HomeSearch(string search)
         {
             return Context.News.Where(a => a.Title.Contains(search) || a.Summary.Contains(search)).ToList();
         }
-        public News News(int id)
+        public News Get(int id)
         {
             return Context.News.Find(id);
         }
@@ -41,6 +43,11 @@ namespace NewsWeb.Infrustructure.Data
         public dynamic NewsDetails(int id)
         {
             return Context.News.Find(id);
+        }
+        public List<News> FindByCategory(int categoryId)
+        {
+            return Context.News.Include(a => a.Category)
+                .Where(a => a.CategoryId == categoryId).ToList();
         }
     }
 }

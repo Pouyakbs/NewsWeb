@@ -1,9 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NewsWeb.Core.ApplicationService;
+using NewsWeb.Core.Contracts;
+using NewsWeb.Infraustraucture.EF;
+using NewsWeb.Infrustructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +28,14 @@ namespace NewsWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<MyContext>(option => option.UseSqlServer("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=NewsWeb;Data Source=."));
+            services.AddScoped<INewsRepository, NewsRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IAdsRepository, AdsRepository>();
+            services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+            services.AddScoped<IAuthenticationFacade, AuthenticationFacade>();
+            services.AddScoped<INewsFacade, NewsFacade>();
+            services.AddScoped<ICategoryFacade, CategoryFacade>();
             services.AddControllersWithViews();
         }
 

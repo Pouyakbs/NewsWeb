@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using NewsWeb.Core.Contracts;
 using NewsWeb.Core.Entities;
 using NewsWeb.Infrustructure.Data;
 using System;
@@ -12,13 +13,13 @@ namespace NewsWeb.Controllers
 {
     public class NewsController : Controller
     {
-        private readonly NewsRepository Newsrepository;
-        private readonly CategoryRepository Categoryrepository;
+        INewsFacade newsFacade;
+        ICategoryFacade categoryFacade;
         private readonly IWebHostEnvironment webHostEnvironment;
-        public NewsController(IWebHostEnvironment HostEnvironment)
+        public NewsController(IWebHostEnvironment HostEnvironment, INewsFacade newsFacade, ICategoryFacade categoryFacade)
         {
-            Newsrepository = new NewsRepository();
-            Categoryrepository = new CategoryRepository();
+            this.newsFacade = newsFacade;
+            this.categoryFacade = categoryFacade;
             webHostEnvironment = HostEnvironment;
         }
         public IActionResult Index()
@@ -30,7 +31,7 @@ namespace NewsWeb.Controllers
             }
             else
             {
-                ViewBag.Data = Newsrepository.GetAll();
+                ViewBag.Data = newsFacade.GetAll();
                 return View();
             }
         }
@@ -62,7 +63,7 @@ namespace NewsWeb.Controllers
                     PubDate = model.PubDate,
                     NewsImages = uniqueFileName,
                 };
-                Newsrepository.CreateNews(news);
+                newsFacade.CreateNews(news);
             }
             return RedirectToAction(nameof(Index));
         }
@@ -98,7 +99,7 @@ namespace NewsWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateCategory(Category category)
         {
-            Categoryrepository.CreateCategory(category);
+            categoryFacade.CreateCategory(category);
             return RedirectToAction(nameof(Index));
         }
         public IActionResult Delete(int id)
@@ -110,7 +111,7 @@ namespace NewsWeb.Controllers
             }
             else
             {
-                Newsrepository.Delete(id);
+                newsFacade.Delete(id);
                 return RedirectToAction("index");
             }
         }

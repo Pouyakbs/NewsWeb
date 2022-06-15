@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NewsWeb.Core.Contracts;
 using NewsWeb.Core.Entities;
 using NewsWeb.Infrustructure.Data;
 using NewsWeb.Models;
@@ -14,32 +15,32 @@ namespace NewsWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly NewsRepository Newsrepository;
-        private readonly CategoryRepository Categoryrepository;
+        INewsFacade newsFacade;
+        ICategoryFacade categoryFacade;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, INewsFacade newsFacade, ICategoryFacade categoryFacade)
         {
             _logger = logger;
-            Newsrepository = new NewsRepository();
-            Categoryrepository = new CategoryRepository();
+            this.newsFacade = newsFacade;
+            this.categoryFacade = categoryFacade;
         }
 
         public IActionResult Index(int categoryId, string search)
         {
-            List<News> news = new List<News>();
+            IEnumerable<News> news = new List<News>();
             if (!string.IsNullOrEmpty(search))
             {
-                news = Newsrepository.Search(search);
+                news = newsFacade.HomeSearch(search);
             }
             else if (categoryId != 0)
             {
-                news = Categoryrepository.Get(categoryId).News;
+                news = newsFacade.FindByCategory(categoryId);
             }
             else
             {
-                news = Newsrepository.GetHottestNews();
+                news = newsFacade.GetHottestNews(5);
             }
-            List<Category> categories = Categoryrepository.GetAll();
+            IEnumerable<Category> categories = categoryFacade.GetAll();
             List<CategoryViewModel> categoryViewModels = new List<CategoryViewModel>();
             foreach (var item in categories)
             {
@@ -55,12 +56,12 @@ namespace NewsWeb.Controllers
                 Categories = categoryViewModels
 
             };
-            ViewBag.Data = Categoryrepository.GetAll();
+            ViewBag.Data = categoryFacade.GetAll();
             return View(model);
         }
         public IActionResult NewsDetails(int id)
         {
-            ViewBag.Data = Newsrepository.NewsDetails(id);
+            ViewBag.Data = newsFacade.NewsDetails(id);
             return View();
         }
 

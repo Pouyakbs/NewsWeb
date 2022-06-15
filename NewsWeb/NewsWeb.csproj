@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NewsWeb.Core.ApplicationService\NewsWeb.Core.ApplicationService.csproj" />
     <ProjectReference Include="..\NewsWeb.Infraustraucture.EF\NewsWeb.Infraustraucture.EF.csproj" />
     <ProjectReference Include="..\NewsWeb.Infrustructure.Data\NewsWeb.Infrustructure.Data.csproj" />
   </ItemGroup>

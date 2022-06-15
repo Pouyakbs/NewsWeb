@@ -1,4 +1,5 @@
-﻿using NewsWeb.Core.Entities;
+﻿using NewsWeb.Core.Contracts;
+using NewsWeb.Core.Entities;
 using NewsWeb.Infraustraucture.EF;
 using System;
 using System.Collections.Generic;
@@ -6,12 +7,12 @@ using System.Linq;
 
 namespace NewsWeb.Infrustructure.Data
 {
-    public class AdsRepository
+    public class AdsRepository : IAdsRepository
     {
         private readonly MyContext Context;
-        public AdsRepository()
+        public AdsRepository(MyContext Context)
         {
-            Context = new MyContext();
+            this.Context = Context;
         }
         public List<Ads> GetAds()
         {
