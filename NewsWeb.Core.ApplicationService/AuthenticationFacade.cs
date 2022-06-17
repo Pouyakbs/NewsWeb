@@ -13,11 +13,11 @@ namespace NewsWeb.Core.ApplicationService
         {
             this.authenticationRepository = authenticationRepository;
         }
-        public IEnumerable<Authentication> GetAuthentications()
+        public IEnumerable<AdminAuthentication> GetAuthentications()
         {
             return authenticationRepository.GetAuthentications();
         }
-        public void AddAdmin(Authentication authentication)
+        public void AddAdmin(AdminAuthentication authentication)
         {
             authenticationRepository.AddAdmin(authentication);
         }

@@ -298,7 +298,7 @@
 	}, {
 		filter: [ 'width', 'items', 'settings' ],
 		run: function(cache) {
-			var width = (this.width() / this.settings.items).toFixed(3) - this.settings.margin,
+			var width = (this.width() / this.settings.items).toFixed(4) - this.settings.margin,
 				merge = null,
 				iterator = this._items.length,
 				grid = !this.settings.autoWidth,

@@ -33,7 +33,11 @@ namespace NewsWeb
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IAdsRepository, AdsRepository>();
             services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+            services.AddScoped<IUserAuthenticationRepository, UserAuthenticationRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<ICommentFacade, CommentFacade>();
             services.AddScoped<IAuthenticationFacade, AuthenticationFacade>();
+            services.AddScoped<IUserAuthenticationFacade, UserAuthenticationFacade>();
             services.AddScoped<INewsFacade, NewsFacade>();
             services.AddScoped<ICategoryFacade, CategoryFacade>();
             services.AddControllersWithViews();

@@ -19,7 +19,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
@@ -41,11 +41,11 @@
                         <li class="nav-item border-right border-secondary">
                             <a class="nav-link text-body small" href="#">Contact</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item border-right border-secondary">
                             <a class="nav-link text-body small" href="~/Account/Login">Login</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-body small" href="~/Account/CreateAccount">SignUp</a>
+                        <li class="nav-item border-right border-secondary">
+                            <a class="nav-link text-body small" href="~/Account/CreateUserAccount">SignUp</a>
                         </li>
                     </ul>
                 </nav>
@@ -77,7 +77,7 @@
         </div>
         <div class="row align-items-center bg-white py-3 px-lg-5">
             <div class="col-lg-5">
-                <a href="index.html" class="navbar-brand p-0 d-none d-lg-block">
+                <a href="/" class="navbar-brand p-0 d-none d-lg-block">
                     <h1 class="m-0 display-4 text-uppercase text-primary">True<span class="text-secondary font-weight-normal">News</span></h1>
                 </a>
             </div>
@@ -90,34 +90,36 @@
     <!-- Navbar Start -->
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-2 py-lg-0 px-lg-5">
-            <a href="index.html" class="navbar-brand d-block d-lg-none">
-                <h1 class="m-0 display-4 text-uppercase text-primary">Pouya<span class="text-white font-weight-normal">News</span></h1>
+            <a href="/" class="navbar-brand d-block d-lg-none">
+                <h1 class="m-0 display-4 text-uppercase text-primary">True<span class="text-white font-weight-normal">News</span></h1>
             </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
                 <div class="navbar-nav mr-auto py-0">
-                    <a href="index.html" class="nav-item nav-link active">Home</a>
-                    <a href="category.html" class="nav-item nav-link">Category</a>
+                    <a href="/" class="nav-item nav-link active">Home</a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dropdown</a>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown">Categories</a>
                         <div class="dropdown-menu rounded-0 m-0">
-                            <a href="#" class="dropdown-item">Menu item 1</a>
-                            <a href="#" class="dropdown-item">Menu item 2</a>
-                            <a href="#" class="dropdown-item">Menu item 3</a>
+                            @foreach (var item in Model.Categories)
+                            {
+                                <a href="/?categoryId=@item.CategoryId" class="dropdown-item">@item.Title</a>
+                            }
                         </div>
                     </div>
                     <a href="contact.html" class="nav-item nav-link">Contact</a>
                 </div>
-                <div class="input-group ml-auto d-none d-lg-flex" style="width: 100%; max-width: 300px;">
-                    <input type="text" class="form-control border-0" placeholder="Keyword">
-                    <div class="input-group-append">
-                        <button class="input-group-text bg-primary text-dark border-0 px-3">
-                            <i class="fa fa-search"></i>
-                        </button>
+                <form method="get" action="/">
+                    <div class="input-group ml-auto d-none d-lg-flex" style="width: 100%; max-width: 300px;">
+                        <input type="text" class="form-control border-0" placeholder="Keyword">
+                        <div class="input-group-append">
+                            <button class="input-group-text bg-primary text-dark border-0 px-3">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </nav>
     </div>
@@ -127,20 +129,53 @@
         <div class="row">
             <div class="col-lg-7 px-0">
                 <div class="owl-carousel main-carousel position-relative">
-                    @foreach (var item in Model.News)
+                    @foreach (var item in Model.News.Take(4).OrderByDescending(a => a.PubDate))
                     {
                         <div class="position-relative overflow-hidden" style="height: 500px; ">
                             <img class="img-fluid h-100" src="img/@item.NewsImages" style="object-fit: cover;">
                             <div class="overlay">
                                 <div class="mb-2">
                                     <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                       href="/?categoryId=@item.CategoryId">@item.CategoryId</a>
-                                    <a class="text-white" href="">Jan 01, 2045</a>
+                                       href="/?categoryId=@item.CategoryId">@item.Category.Title</a>
+                                    <a class="text-white" href="">@item.PubDate</a>
                                 </div>
                                 <a class="h2 m-0 text-white text-uppercase font-weight-bold" href="/home/NewsDetails/@item.NewsId">@item.Title</a>
                             </div>
                         </div>
                     }
+                </div>
+            </div>
+            <div class="col-lg-5 px-0">
+                <div class="row mx-0">
+                    @foreach (var item in Model.News.OrderBy(a=>a.PubDate))
+                    {
+                        <div class="col-md-6 px-0">
+                            <div class="position-relative overflow-hidden" style="height: 250px;">
+                                <img class="img-fluid w-100 h-100" src="img/@item.NewsImages" style="object-fit: cover;">
+                                <div class="overlay">
+                                    <div class="mb-2">
+                                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                           href="/?categoryId=@item.CategoryId">@item.Category.Title</a>
+                                        <a class="text-white" href=""><small>@item.PubDate</small></a>
+                                    </div>
+                                    <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold" href="/home/NewsDetails/@item.NewsId">@item.Title</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-md-6 px-0">
+                        <div class="position-relative overflow-hidden" style="height: 250px;">
+                            <img class="img-fluid w-100 h-100" src="img/3cc1da51-237b-4eb0-aac2-7b8882c6c333_169743818.jpg" style="object-fit: cover;">
+                            <div class="overlay">
+                                <div class="mb-2">
+                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                       href="/?categoryId=2">زندگی</a>
+                                    <a class="text-white" href=""><small>6/16/2022 12:00:00 AM</small></a>
+                                </div>
+                                <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold" href="/home/NewsDetails/5">در خانه شربت موهیتو درست کنید</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -164,8 +199,8 @@
                         <div class="overlay">
                             <div class="mb-2">
                                 <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                   href="/?categoryId=@item.CategoryId">@item.CategoryId</a>
-                                <a class="text-white" href=""><small>Jan 01, 2045</small></a>
+                                   href="/?categoryId=@item.CategoryId">@item.Category.Title</a>
+                                <a class="text-white" href=""><small>@item.PubDate</small></a>
                             </div>
                             <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold" href="/home/NewsDetails/@item.NewsId">@item.Title</a>
                         </div>
@@ -191,16 +226,16 @@
                                 <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
                             </div>
                         </div>
-                        @foreach (var item in Model.News)
+                        @foreach (var item in Model.News.Take(4))
                         {
-                            <div class="col-lg-6">
-                                <div class="position-relative mb-3">
+                            <div class="col-lg-12">
+                                <div class="position-relative mb-5">
                                     <img class="img-fluid w-100" src="img/@item.NewsImages" style="object-fit: cover;">
                                     <div class="bg-white border border-top-0 p-4">
                                         <div class="mb-2">
                                             <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                               href="/?categoryId=@item.CategoryId">@item.CategoryId</a>
-                                            <a class="text-body" href=""><small>Jan 01, 2045</small></a>
+                                               href="/?categoryId=@item.CategoryId">@item.Category.Title</a>
+                                            <a class="text-body" href=""><small>@item.PubDate</small></a>
                                         </div>
                                         <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold" href="/home/NewsDetails/@item.NewsId">@item.Title</a>
                                         <p class="m-0">
@@ -252,7 +287,9 @@
                         <div class="section-title mb-0">
                             <h4 class="m-0 text-uppercase font-weight-bold">Advertisement</h4>
                         </div>
-                        @(await Component.InvokeAsync("Ads"))
+                        <div class="bg-white text-center border border-top-0 p-3">
+                            @(await Component.InvokeAsync("Ads"))
+                        </div>
                     </div>
                     <!-- Ads End -->
                     <!-- Popular News Start -->
@@ -294,8 +331,8 @@
         <div class="row py-4">
             <div class="col-lg-3 col-md-6 mb-5">
                 <h5 class="mb-4 text-white text-uppercase font-weight-bold">Get In Touch</h5>
-                <p class="font-weight-medium"><i class="fa fa-map-marker-alt mr-2"></i>123 Street, New York, USA</p>
-                <p class="font-weight-medium"><i class="fa fa-phone-alt mr-2"></i>+012 345 67890</p>
+                <p class="font-weight-medium"><i class="fa fa-map-marker-alt mr-2"></i>Tehran, Iran</p>
+                <p class="font-weight-medium"><i class="fa fa-phone-alt mr-2"></i>Your Phone Number</p>
                 <p class="font-weight-medium"><i class="fa fa-envelope mr-2"></i>info@example.com</p>
                 <h6 class="mt-4 mb-3 text-white text-uppercase font-weight-bold">Follow Us</h6>
                 <div class="d-flex justify-content-start">
@@ -308,14 +345,14 @@
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
                 <h5 class="mb-4 text-white text-uppercase font-weight-bold">Popular News</h5>
-                @foreach (var item in Model.News)
+                @foreach (var item in Model.News.Take(4))
                 {
                     <div class="mb-3">
                         <div class="mb-2">
-                            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">@item.CategoryId</a>
-                            <a class="text-body" href=""><small>Jan 01, 2045</small></a>
+                            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="/?categoryId=@item.CategoryId">@item.Category.Title</a>
+                            <a class="text-body" href=""><small>@item.PubDate</small></a>
                         </div>
-                        <a class="small text-body text-uppercase font-weight-medium" href="">@item.Title</a>
+                        <a class="small text-body text-uppercase font-weight-medium" href="/Home/NewsDetails/@item.NewsId">@item.Title</a>
                     </div>
                 }
 
@@ -351,14 +388,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="container-fluid py-4 px-sm-3 px-md-5" style="background: #111111;">
-        <p class="m-0 text-center">
-            &copy; <a href="#">Your Site Name</a>. All Rights Reserved.
-
-            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-            Design by <a href="https://htmlcodex.com">HTML Codex</a>
-        </p>
     </div>
     <!-- Footer End -->
     <!-- Back to Top -->

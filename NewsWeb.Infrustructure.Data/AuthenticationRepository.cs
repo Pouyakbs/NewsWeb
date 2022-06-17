@@ -13,11 +13,11 @@ namespace NewsWeb.Infrustructure.Data
         {
             this.Context = Context;
         }
-        public List<Authentication> GetAuthentications()
+        public List<AdminAuthentication> GetAuthentications()
         {
             return Context.Authentications.ToList();
         }
-        public void AddAdmin(Authentication authentication)
+        public void AddAdmin(AdminAuthentication authentication)
         {
             Context.Authentications.Add(authentication);
             Context.SaveChanges();

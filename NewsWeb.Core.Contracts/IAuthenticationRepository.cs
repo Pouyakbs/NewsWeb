@@ -5,7 +5,7 @@ namespace NewsWeb.Core.Contracts
 {
     public interface IAuthenticationRepository
     {
-        List<Authentication> GetAuthentications();
-        void AddAdmin(Authentication authentication);
+        List<AdminAuthentication> GetAuthentications();
+        void AddAdmin(AdminAuthentication authentication);
     }
 }

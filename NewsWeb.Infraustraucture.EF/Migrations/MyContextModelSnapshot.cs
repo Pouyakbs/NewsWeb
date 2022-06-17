@@ -19,22 +19,7 @@ namespace NewsWeb.Infraustraucture.EF.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("NewsWeb.Core.Entities.Ads", b =>
-                {
-                    b.Property<int>("AdsId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AdsImages")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AdsId");
-
-                    b.ToTable("Ads");
-                });
-
-            modelBuilder.Entity("NewsWeb.Core.Entities.Authentication", b =>
+            modelBuilder.Entity("NewsWeb.Core.Entities.AdminAuthentication", b =>
                 {
                     b.Property<int>("UsernameId")
                         .ValueGeneratedOnAdd()
@@ -52,6 +37,21 @@ namespace NewsWeb.Infraustraucture.EF.Migrations
                     b.ToTable("Authentications");
                 });
 
+            modelBuilder.Entity("NewsWeb.Core.Entities.Ads", b =>
+                {
+                    b.Property<int>("AdsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AdsImages")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AdsId");
+
+                    b.ToTable("Ads");
+                });
+
             modelBuilder.Entity("NewsWeb.Core.Entities.Category", b =>
                 {
                     b.Property<int>("CategoryId")
@@ -65,6 +65,35 @@ namespace NewsWeb.Infraustraucture.EF.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("NewsWeb.Core.Entities.Comment", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CommentText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NewsId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PubTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("NewsId");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("NewsWeb.Core.Entities.News", b =>
@@ -97,6 +126,51 @@ namespace NewsWeb.Infraustraucture.EF.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("News");
+                });
+
+            modelBuilder.Entity("NewsWeb.Core.Entities.UserAuthentication", b =>
+                {
+                    b.Property<int>("UsernameId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Firstname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfileImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UsernameId");
+
+                    b.ToTable("UserAuthentications");
+                });
+
+            modelBuilder.Entity("NewsWeb.Core.Entities.Comment", b =>
+                {
+                    b.HasOne("NewsWeb.Core.Entities.News", "News")
+                        .WithMany("Comments")
+                        .HasForeignKey("NewsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("NewsWeb.Core.Entities.News", b =>

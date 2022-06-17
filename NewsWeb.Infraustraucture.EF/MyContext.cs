@@ -17,7 +17,9 @@ namespace NewsWeb.Infraustraucture.EF
         }
         public DbSet<News> News { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Authentication> Authentications { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<AdminAuthentication> Authentications { get; set; }
+        public DbSet<UserAuthentication> UserAuthentications { get; set; }
         public DbSet<Ads> Ads { get; set; }
     }
 }

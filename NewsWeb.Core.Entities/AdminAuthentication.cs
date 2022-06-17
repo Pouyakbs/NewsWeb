@@ -2,7 +2,7 @@
 
 namespace NewsWeb.Core.Entities
 {
-    public class Authentication
+    public class AdminAuthentication
     {
         [Key]
         public int UsernameId { get; set; }

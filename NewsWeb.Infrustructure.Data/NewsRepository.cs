@@ -30,10 +30,10 @@ namespace NewsWeb.Infrustructure.Data
         {
             return Context.News.ToList();
         }
-        public async void CreateNews(News news)
+        public void CreateNews(News news)
         {
             Context.Add(news);
-            await Context.SaveChangesAsync();
+            Context.SaveChanges();
         }
         public void Delete(int id)
         {

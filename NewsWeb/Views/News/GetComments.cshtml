@@ -1,12 +1,14 @@
 ﻿@{
-    List<NewsWeb.Core.Entities.News> list = ViewBag.Data as List<NewsWeb.Core.Entities.News>;
+    List<NewsWeb.Core.Entities.Comment> list = ViewBag.Data as List<NewsWeb.Core.Entities.Comment>;
 }
+
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - NewsManager</title>
+    <title>@ViewData["Title"] - CommentManager</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -38,29 +40,15 @@
             </div>
         </nav>
     </header>
-    @{ ViewData["Title"] = "Home Page"; }
-
-    <h4 class="text-center text-uppercase">List of News</h4>
-
-    <p>
-        <a asp-action="CreateNews" class="btn btn-sm btn-primary rounded-0 text-uppercase"><i class="fas fa-plus-circle"></i> Add News</a>
-    </p>
-    <p>
-        <a asp-action="CreateCategory" class="btn btn-sm btn-primary rounded-0 text-uppercase"><i class="fas fa-plus-circle"></i> Add Category</a>
-    </p>
-    <p>
-        <a asp-action="GetComments" class="btn btn-sm btn-primary rounded-0 text-uppercase"><i class="fas fa-plus-circle"></i> Manage Comments</a>
-    </p>
-    <p>
-        <a asp-action="search" class="btn btn-sm btn-primary rounded-0 text-uppercase"><i class="fas fa-plus-circle"></i> Search</a>
-    </p>
+    <h4 class="text-center text-uppercase">List of Comments</h4>
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>CategoryId</th>
-                <th>Summary</th>
-                <th>MainText</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>CommentText</th>
+                <th>PubTime</th>
+                <th>NewsId</th>
             </tr>
         </thead>
         <tbody>
@@ -68,16 +56,13 @@
             {
                 <tr>
                     <td>
-                        <img src="~/img/@news.NewsImages"
-                             class="rounded-circle"
-                             height="40" width="40"
-                             asp-append-version="true" />
-                        @news.Title
+                        @news.Name
                     </td>
-                    <td>@news.CategoryId</td>
-                    <td>@news.Summary</td>
-                    <td>@news.Text</td>
-                    <td><a href="news/edit/@news.NewsId" class="btn btn-warning">ویرایش</a>|<a href="~/news/delete/@news.NewsId" class="btn btn-danger">حذف</a></td>
+                    <td>@news.Email</td>
+                    <td>@news.CommentText</td>
+                    <td>@news.PubTime</td>
+                    <td>@news.NewsId</td>
+                    <td><a href="~/news/deletecomment/@news.CommentId" class="btn btn-danger">حذف</a></td>
                 </tr>
 
             }

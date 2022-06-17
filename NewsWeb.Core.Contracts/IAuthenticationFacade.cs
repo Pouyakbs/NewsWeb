@@ -7,7 +7,7 @@ namespace NewsWeb.Core.Contracts
 {
     public interface IAuthenticationFacade
     {
-        IEnumerable<Authentication> GetAuthentications();
-        void AddAdmin(Authentication authentication);
+        IEnumerable<AdminAuthentication> GetAuthentications();
+        void AddAdmin(AdminAuthentication authentication);
     }
 }

@@ -15,11 +15,13 @@ namespace NewsWeb.Controllers
     {
         INewsFacade newsFacade;
         ICategoryFacade categoryFacade;
+        ICommentFacade commentFacade;
         private readonly IWebHostEnvironment webHostEnvironment;
-        public NewsController(IWebHostEnvironment HostEnvironment, INewsFacade newsFacade, ICategoryFacade categoryFacade)
+        public NewsController(IWebHostEnvironment HostEnvironment, INewsFacade newsFacade, ICategoryFacade categoryFacade, ICommentFacade commentFacade)
         {
             this.newsFacade = newsFacade;
             this.categoryFacade = categoryFacade;
+            this.commentFacade = commentFacade;
             webHostEnvironment = HostEnvironment;
         }
         public IActionResult Index()
@@ -32,6 +34,19 @@ namespace NewsWeb.Controllers
             else
             {
                 ViewBag.Data = newsFacade.GetAll();
+                return View();
+            }
+        }
+        public IActionResult GetComments()
+        {
+            var validate = TempData.Peek("LoggedIn");
+            if (validate == null || validate.ToString() == "False")
+            {
+                return RedirectToAction("login", "Account");
+            }
+            else
+            {
+                ViewBag.Data = commentFacade.GetComments();
                 return View();
             }
         }
@@ -60,7 +75,7 @@ namespace NewsWeb.Controllers
                     CategoryId = model.CategoryId,
                     Text = model.Text,
                     Summary = model.Summary,
-                    PubDate = model.PubDate,
+                    PubDate = DateTime.Now,
                     NewsImages = uniqueFileName,
                 };
                 newsFacade.CreateNews(news);
@@ -113,6 +128,19 @@ namespace NewsWeb.Controllers
             {
                 newsFacade.Delete(id);
                 return RedirectToAction("index");
+            }
+        }
+        public IActionResult DeleteComment(int id)
+        {
+            var validate = TempData.Peek("LoggedIn");
+            if (validate == null || validate.ToString() == "False")
+            {
+                return RedirectToAction("login", "Account");
+            }
+            else
+            {
+                commentFacade.DeleteComment(id);
+                return RedirectToAction("DeleteComment");
             }
         }
     }

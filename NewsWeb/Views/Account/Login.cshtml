@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@{ NewsWeb.Core.Entities.UserAuthentication user = ViewBag.Data as NewsWeb.Core.Entities.UserAuthentication; }
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -71,7 +72,7 @@
 
         <div class="container" style="background-color:#f1f1f1">
             <button type="button" onclick="location.href='/'" class="cancelbtn">Cancel</button>
-            <span class="psw">Forgot <a href="#">Password?</a></span>
+            <span class="psw">Don't Have Account? <a href="/Account/CreateUserAccount">Create Now</a></span>
         </div>
     </form>
 

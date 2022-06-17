@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NewsWeb.Core.Contracts;
 using NewsWeb.Core.Entities;
@@ -17,12 +18,15 @@ namespace NewsWeb.Controllers
         private readonly ILogger<HomeController> _logger;
         INewsFacade newsFacade;
         ICategoryFacade categoryFacade;
-
-        public HomeController(ILogger<HomeController> logger, INewsFacade newsFacade, ICategoryFacade categoryFacade)
+        ICommentFacade commentFacade;
+        IUserAuthenticationFacade userAuthenticationFacade;
+        public HomeController(ILogger<HomeController> logger, INewsFacade newsFacade, ICategoryFacade categoryFacade, ICommentFacade commentFacade, IUserAuthenticationFacade userAuthenticationFacade)
         {
             _logger = logger;
             this.newsFacade = newsFacade;
             this.categoryFacade = categoryFacade;
+            this.commentFacade = commentFacade;
+            this.userAuthenticationFacade = userAuthenticationFacade;
         }
 
         public IActionResult Index(int categoryId, string search)
@@ -38,7 +42,7 @@ namespace NewsWeb.Controllers
             }
             else
             {
-                news = newsFacade.GetHottestNews(5);
+                news = newsFacade.GetHottestNews(8);
             }
             IEnumerable<Category> categories = categoryFacade.GetAll();
             List<CategoryViewModel> categoryViewModels = new List<CategoryViewModel>();
@@ -61,10 +65,32 @@ namespace NewsWeb.Controllers
         }
         public IActionResult NewsDetails(int id)
         {
+            ViewBag.NewsList = newsFacade.GetAll();
+            ViewBag.CategoryList = categoryFacade.GetAll();
+            ViewBag.CommentData = commentFacade.GetComments().Where(c => c.NewsId == id).OrderByDescending(o => o.PubTime);
             ViewBag.Data = newsFacade.NewsDetails(id);
             return View();
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult NewsDetails(Comment comment,News news , int id)
+        {
+            ViewBag.NewsList = newsFacade.GetAll();
+            ViewBag.CategoryList = categoryFacade.GetAll();
+            ViewBag.CommentData = commentFacade.GetComments().Where(c => c.NewsId == news.NewsId).OrderByDescending(o=>o.PubTime);
+            ViewBag.Data = newsFacade.NewsDetails(id);
+            Comment newscomment = new Comment()
+            {
+                Name = comment.Name,
+                Email = comment.Email,
+                CommentText = comment.CommentText,
+                NewsId = news.NewsId,
+                PubTime = DateTime.Now,
+            };
+            commentFacade.AddComment(newscomment);
+            
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

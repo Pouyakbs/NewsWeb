@@ -1,0 +1,94 @@
+﻿@model NewsWeb.Core.Entities.UserAuthentication
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Responsive Registration Form</title>
+    <link rel="stylesheet" href="~/css/SignUpStyle.css">
+
+</head>
+<body>
+    <!-- partial:index.partial.html -->
+    @Html.AntiForgeryToken()
+    <div class="form_wrapper">
+        <div class="form_container">
+            <div class="title_container">
+                <h2>Responsive Registration Form</h2>
+            </div>
+            <div class="row clearfix">
+                <div class="">
+                    <form enctype="multipart/form-data" asp-action="CreateUserAccount">
+                        <div class="input_field">
+                            <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+                            <input type="email" name="email" placeholder="Email" required />
+                        </div>
+                        <div class="input_field">
+                            <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+                            <input type="text" name="username" placeholder="Username" required />
+                        </div>
+                        <div class="input_field">
+                            <span><i aria-hidden="true" class="fa fa-lock"></i></span>
+                            <input type="password" name="password" placeholder="Password" required />
+                        </div>
+                        <div class="input_field">
+                            <span><i aria-hidden="true" class="fa fa-lock"></i></span>
+                            <input type="password" name="confirmedpass" placeholder="Re-type Password" required />
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col_half">
+                                <div class="input_field">
+                                    <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                    <input type="text" name="Firstname" placeholder="First Name" required />
+                                </div>
+                            </div>
+                            <div class="col_half">
+                                <div class="input_field">
+                                    <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                    <input type="text" name="Lastname" placeholder="Last Name" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="Gender" class="control-label"></label>
+                                <select asp-for="Gender" class="form-control">
+                                    <option value="">Choose Male or Female</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-xl-12">
+                            <div class="input_field">
+                                <label asp-for="Description" class="control-label"></label>
+                                <textarea asp-for="Description" id="message" placeholder="Write Your Description" cols="15" rows="5" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="custom-file">
+                                    <input name="images" class="custom-file-input" type="file" id="images">
+                                    <label class="custom-file-label" for="images">Upload Your Profile Picture</label>
+                                </div>
+                            </div>
+                        </div>
+                        <input href="/Account/UserProfile" class="button" type="submit" value="Register" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- partial -->
+    @section scripts{
+        <script type="text/javascript">
+            // Add the following code if you want the name of the file appear on select
+            $(".custom-file-input").on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            });
+        </script>
+    }
+    <script src='https://use.fontawesome.com/4ecc3dbb0b.js'></script>
+</body>
+</html>
