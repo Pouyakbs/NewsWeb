@@ -145,17 +145,14 @@
                 <div class="col-lg-8">
                     <!-- News Detail Start -->
                     <div class="position-relative mb-3" dir="rtl">
-                        <img class="img-fluid w-100" src="~/img/@news.NewsImages" style="object-fit: cover;">
+                        <div pre-post="" images="/img/@news.NewsImages"></div>
                         <div class="bg-white border border-top-0 p-4">
                             <div class="mb-3">
                                 <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
                                    href="/?categoryId=@news.CategoryId">@news.Category.Title</a>
                                 <a class="text-body" href="">@news.PubDate</a>
                             </div>
-                            <h1 class="mb-3 text-secondary text-uppercase font-weight-bold">@news.Title</h1>
-                            <p>
-                                @news.Text
-                            </p>
+                            <div pre-post="@news.Title" details="@news.Text"></div>
                         </div>
                     </div>
                     <!-- News Detail End -->
@@ -173,7 +170,6 @@
                                         <p>
                                             @item.CommentText
                                         </p>
-                                        <button class="btn btn-sm btn-outline-secondary">Reply</button>
                                     </div>
                                 </div>
                             </div>
